@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import cors from "cors";
 import express, { Request, Response, NextFunction } from "express";
 import { formSchema, meetingSchema, terminalSchema } from "./schema";
 import { nullCheck, dispatchMail } from "./middlewares";
@@ -7,6 +7,7 @@ import { readLogFile, logMeetingSchedule, readMeetingSchedule } from "./utils";
 const port = 8000;
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (_: Request, res: Response) => {
   res.send("api.thecodeographer.com");
