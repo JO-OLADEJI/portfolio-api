@@ -48,13 +48,16 @@ export const dispatchMailToCDGR = async (
         }
       </font>
     </div>`,
-    attachments: [
-      {
-        filename: "image.png",
-        path: `${details.src === "canvas" && details.imageData}`,
-        cid: "unique@nodemailer.com",
-      },
-    ],
+    attachments:
+      details.src === "canvas"
+        ? [
+            {
+              filename: "image.png",
+              path: `${details.imageData}`,
+              cid: "unique@nodemailer.com",
+            },
+          ]
+        : undefined,
   };
 
   try {

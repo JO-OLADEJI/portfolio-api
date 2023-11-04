@@ -31,6 +31,7 @@ export const meetingSchema = Joi.object<MeetingContact>({
   brand: Joi.string().min(2).required(),
   memorandum: Joi.string().min(5).max(300).required(),
   meetingTimestamp: Joi.number().min(new Date().valueOf()).required(),
+  dateLiteral: Joi.string().required(),
   src: Joi.string().valid("meeting").required(),
 });
 

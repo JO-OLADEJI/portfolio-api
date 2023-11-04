@@ -7,6 +7,7 @@ export interface MeetingContact extends Contact {
   brand: string;
   memorandum: string;
   meetingTimestamp: number;
+  dateLiteral: string;
 }
 
 export interface FormContact extends Contact {
