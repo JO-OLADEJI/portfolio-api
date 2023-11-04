@@ -17,3 +17,8 @@ export interface FormContact extends Contact {
 export interface TerminalContact extends FormContact {
   [key: string]: string;
 }
+
+export interface CanvasContact {
+  imageData: string;
+  src: "canvas";
+}

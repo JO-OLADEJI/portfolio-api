@@ -1,4 +1,9 @@
-import { FormContact, TerminalContact } from "./types";
+import {
+  CanvasContact,
+  FormContact,
+  MeetingContact,
+  TerminalContact,
+} from "./types";
 import Joi from "joi";
 
 export const formSchema = Joi.object<FormContact>({
@@ -19,7 +24,7 @@ export const terminalSchema = Joi.object<TerminalContact>({
   src: Joi.string().valid("terminal").required(),
 }).unknown(true);
 
-export const meetingSchema = Joi.object({
+export const meetingSchema = Joi.object<MeetingContact>({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
@@ -27,4 +32,11 @@ export const meetingSchema = Joi.object({
   memorandum: Joi.string().min(5).max(300).required(),
   meetingTimestamp: Joi.number().min(new Date().valueOf()).required(),
   src: Joi.string().valid("meeting").required(),
+});
+
+export const canvasSchema = Joi.object<CanvasContact>({
+  imageData: Joi.string()
+    .regex(/^data:image\/png;base64,/)
+    .required(),
+  src: Joi.string().valid("canvas").required(),
 });

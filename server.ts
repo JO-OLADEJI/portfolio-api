@@ -1,12 +1,19 @@
 import cors from "cors";
+import bodyParser from "body-parser";
 import express, { Request, Response, NextFunction } from "express";
-import { formSchema, meetingSchema, terminalSchema } from "./schema";
+import {
+  formSchema,
+  meetingSchema,
+  terminalSchema,
+  canvasSchema,
+} from "./schema";
 import { nullCheck, dispatchMail } from "./middlewares";
 import { readLogFile, logMeetingSchedule, readMeetingSchedule } from "./utils";
 
 const port = 8000;
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 
 app.get("/", (_: Request, res: Response) => {
@@ -60,7 +67,17 @@ app
     dispatchMail
   );
 
-// app.post("/api/contact/canvas", nullCheck, (req: Request, res: Response) => {});
+app.post(
+  "/api/contact/canvas",
+  nullCheck,
+  (req: Request, res: Response, next: NextFunction) => {
+    const { value, error } = canvasSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    req.body = value;
+    next();
+  },
+  dispatchMail
+);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
